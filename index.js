@@ -1,4 +1,5 @@
 var _ = require('underscore'),
+    q = require('q'),
     rox = require('rox-client-node');
 
 function RoxClientKarmaReporter(logger, options) {
@@ -14,10 +15,7 @@ _.extend(RoxClientKarmaReporter.prototype, {
   onRunStart: function() {
     this.config = rox.client.loadConfig(this.options.config);
     this.testRun = rox.client.startTestRun(this.config);
-  },
-
-  onRunComplete: function() {
-    this.testRun.end();
+    this.uploads = [];
   },
 
   onSpecComplete: function(browser, result) {
@@ -35,7 +33,9 @@ _.extend(RoxClientKarmaReporter.prototype, {
     this.testRun.add(null, name, result.success, result.time, options);
   },
 
-  onExit: function(done) {
+  onRunComplete: function() {
+    this.testRun.end();
+
     var log = this.log;
 
     var numberOfResults = this.testRun.results.length;
@@ -48,21 +48,38 @@ _.extend(RoxClientKarmaReporter.prototype, {
     }
 
     var startTime = new Date().getTime();
-    rox.client.process(this.testRun, this.config).then(function(info) {
-      if (info.errors.length) {
-        _.each(info.errors, function(error) {
-          log.warn(error);
-        });
-      } else if (!info.published) {
-        log.info('Publishing disabled');
-      } else {
-        var duration = new Date().getTime() - startTime;
-        log.info('Test results successfully published in ' + (duration / 1000) + 's');
-      }
-      done();
-    }, function(err) {
-      log.warn(err.message + "\n" + err.stack);
-      done();
+
+    var promise = rox.client.process(this.testRun, this.config).then(_.partial(logInfo, startTime, log)).fail(logError);
+
+    this.uploads.push(promise);
+
+    var uploads = this.uploads;
+    promise.fin(function() {
+      uploads.splice(uploads.indexOf(promise), 1);
     });
+  },
+
+  onExit: function(done) {
+    if (this.uploads.length) {
+      this.log.info('Waiting on test results to be published to ROX Center...');
+    }
+    q.all(this.uploads).fin(done);
   }
 });
+
+function logInfo(startTime, log, info) {
+  if (info.errors.length) {
+    _.each(info.errors, function(error) {
+      log.warn(error);
+    });
+  } else if (!info.published) {
+    log.info('Publishing disabled');
+  } else {
+    var duration = new Date().getTime() - startTime;
+    log.info('Test results successfully published in ' + (duration / 1000) + 's');
+  }
+}
+
+function logError(err) {
+  log.warn(err.message + "\n" + err.stack);
+}

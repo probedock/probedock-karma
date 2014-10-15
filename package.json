@@ -24,6 +24,7 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
+    "q": "^1.0.1",
     "rox-client-node": "^0.1.0"
   },
   "devDependencies": {
