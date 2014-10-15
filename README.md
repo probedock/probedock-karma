@@ -1,106 +1,47 @@
-# rox-client-grunt-jasmine
+# Karma reporter for ROX Center Clients
 
-> Jasmine reporter to send test results to [ROX Center](https://github.com/lotaris/rox-center) from Grunt tasks.
-
-[![NPM version](https://badge.fury.io/js/rox-client-grunt-jasmine.svg)](http://badge.fury.io/js/rox-client-grunt-jasmine)
-
-This reporter can be used with Jasmine-based Grunt plugins like [grunt-protractor-runner](https://github.com/teerapap/grunt-protractor-runner) and [grunt-contrib-jasmine](https://github.com/gruntjs/grunt-contrib-jasmine). Only Jasmine 1.3 is supported at the moment.
+> Karma reporter to send test results to [ROX Center](https://github.com/lotaris/rox-center).
 
 ## Usage
 
-This reporter must be used in conjunction with [rox-client-grunt](https://github.com/lotaris/rox-client-grunt).
-
-Add both as development dependencies:
+Add it as a development dependency:
 
 ```bash
-npm install --save-dev rox-client-grunt
-npm install --save-dev rox-client-grunt-jasmine
+npm install --save-dev rox-client-karma
 ```
 
-If you are using [Protractor](http://angular.github.io/protractor/), add the reporter to your Protractor configuration:
+And to your Karma configuration:
 
 ```js
-// load the reporter module
-var RoxReporter = require('rox-client-grunt-jasmine');
+module.exports = function(config){
+  config.set({
 
-exports.config = {
-  allScriptsTimeout: 11000,
+    files: ['*.test.js'],
+    autoWatch: true,
+    frameworks: ['jasmine'],
+    browsers: ['Chrome', 'Firefox'],
 
-  specs: [
-    'e2e/**/*.js'
-  ],
+	// add the reporter
+    reporters: ['rox'],
 
-  capabilities: {
-    'browserName': 'firefox'
-  },
-
-  baseUrl: 'http://example.com',
-
-  // the jasmine framework is required
-  framework: 'jasmine',
-
-  jasmineNodeOpts: {
-    defaultTimeoutInterval: 30000
-  },
-
-  // add the reporter to the jasmine environment
-  onPrepare: function() {
-    jasmine.getEnv().addReporter(new RoxReporter({
-
-      // custom rox client configuration
+	// customize the configuration
+    rox: {
       config: {
         project: {
-          category: 'Protractor - Jasmine'
+          category: 'Karma (Jasmine)'
         }
       }
-    }));
-  }
+    },
+
+    plugins: [
+      'karma-chrome-launcher',
+      'karma-firefox-launcher',
+      'karma-jasmine',
+      'rox-client-karma' // register the plugin
+    ]
+  });
 };
 ```
-
-If you are using [grunt-protractor-runner](https://github.com/teerapap/grunt-protractor-runner),
-you must add the ROX grunt tasks around your test task.
-For example, in your Gruntfile:
-
-```js
-module.exports = function(grunt) {
-
-  grunt.initConfig({
-
-    // rox grunt task configuration
-    roxGruntSetup: {
-      all: {}
-    },
-
-    roxGruntPublish: {
-      all: {}
-    },
-
-    // your protractor task configuration
-    // (note that the keepAlive option is required to work with the rox tasks)
-    protractor: {
-      options: {
-        configFile: 'test/protractor.conf.js',
-        keepAlive: true
-      },
-      all: {}
-    }
-  });
-
-  grunt.loadNpmTasks('grunt-protractor-runner');
-  grunt.loadNpmTasks('rox-client-grunt');
-
-  // add the rox grunt tasks around your task
-  grunt.registerTask('test-protractor', ['roxGruntSetup', 'protractor', 'roxGruntPublish']);
-}
-```
-
-### Requirements
-
-* Node.js 0.10
-* Jasmine 1.3
-
-
 
 ## Contributing
 
@@ -111,9 +52,7 @@ module.exports = function(grunt) {
 
 Please add a changelog entry with your name for new features and bug fixes.
 
-
-
 ## License
 
-*rox-client-grunt-jasmine* is licensed under the [MIT License](http://opensource.org/licenses/MIT).
+*rox-client-karma* is licensed under the [MIT License](http://opensource.org/licenses/MIT).
 See [LICENSE.txt](LICENSE.txt) for the full text.
