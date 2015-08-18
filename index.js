@@ -1,20 +1,20 @@
 var _ = require('underscore'),
     q = require('q'),
-    rox = require('rox-client-node');
+    probedock = require('probedock-node');
 
-function RoxClientKarmaReporter(logger, options) {
-  this.log = logger.create('reporter.rox');
+function ProbeDockKarmaReporter(logger, options) {
+  this.log = logger.create('reporter.probedock');
   this.options = options || {};
 }
 
-RoxClientKarmaReporter.$inject = ['logger', 'config.rox'];
-exports['reporter:rox'] = [ 'type', RoxClientKarmaReporter ];
+ProbeDockKarmaReporter.$inject = ['logger', 'config.probedock'];
+exports['reporter:probedock'] = [ 'type', ProbeDockKarmaReporter ];
 
-_.extend(RoxClientKarmaReporter.prototype, {
+_.extend(ProbeDockKarmaReporter.prototype, {
 
   onRunStart: function() {
-    this.config = rox.client.loadConfig(this.options.config);
-    this.testRun = rox.client.startTestRun(this.config);
+    this.config = probedock.client.loadConfig(this.options.config);
+    this.testRun = probedock.client.startTestRun(this.config);
     this.uploads = [];
   },
 
@@ -24,7 +24,9 @@ _.extend(RoxClientKarmaReporter.prototype, {
     }
 
     var name = result.suite.join(' ') + ' ' + result.description,
-      options = {};
+        options = {
+          nameParts: result.suite.concat([ result.description ])
+        };
 
     if (!result.success) {
       options.message = browser.name + ': ' + result.log.join("\n");
@@ -44,12 +46,12 @@ _.extend(RoxClientKarmaReporter.prototype, {
         return memo + (result.key ? 1 : 0);
       }, 0);
 
-      log.info('Found ' + (numberOfResultsWithKey ? numberOfResultsWithKey : 'no') + ' results to send to ROX Center (' + numberOfResults + ' results in total)');
+      log.info('Found ' + (numberOfResultsWithKey ? numberOfResultsWithKey : 'no') + ' results to send to Probe Dock (' + numberOfResults + ' results in total)');
     }
 
     var startTime = new Date().getTime();
 
-    var promise = rox.client.process(this.testRun, this.config).then(_.partial(logInfo, startTime, log)).fail(logError);
+    var promise = probedock.client.process(this.testRun, this.config).then(_.partial(logInfo, startTime, log)).fail(logError);
 
     this.uploads.push(promise);
 
@@ -61,7 +63,7 @@ _.extend(RoxClientKarmaReporter.prototype, {
 
   onExit: function(done) {
     if (this.uploads.length) {
-      this.log.info('Waiting on test results to be published to ROX Center...');
+      this.log.info('Waiting on test results to be published to Probe Dock...');
     }
     q.all(this.uploads).fin(done);
   }

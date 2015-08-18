@@ -1,13 +1,15 @@
-# Karma reporter for ROX Center Clients
+# Karma probe for Probe Dock
 
-> Karma reporter to send test results to [ROX Center](https://github.com/lotaris/rox-center).
+> [Karma](http://karma-runner.github.io/) reporter to publish test results to [Probe Dock](https://github.com/probedock/probedock).
+
+
 
 ## Usage
 
 Add it as a development dependency:
 
 ```bash
-npm install --save-dev rox-client-karma
+npm install --save-dev probedock-karma
 ```
 
 And to your Karma configuration:
@@ -21,11 +23,11 @@ module.exports = function(config){
     frameworks: ['jasmine'],
     browsers: ['Chrome', 'Firefox'],
 
-	// add the reporter
-    reporters: ['rox'],
+    // add the reporter
+    reporters: ['probedock'],
 
-	// customize the configuration
-    rox: {
+    // customize the configuration
+    probedock: {
       config: {
         project: {
           category: 'Karma (Jasmine)'
@@ -37,11 +39,13 @@ module.exports = function(config){
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-jasmine',
-      'rox-client-karma' // register the plugin
+      'probedock-karma' // register the plugin
     ]
   });
 };
 ```
+
+
 
 ## Contributing
 
@@ -52,7 +56,8 @@ module.exports = function(config){
 
 Please add a changelog entry with your name for new features and bug fixes.
 
+
+
 ## License
 
-*rox-client-karma* is licensed under the [MIT License](http://opensource.org/licenses/MIT).
-See [LICENSE.txt](LICENSE.txt) for the full text.
+*probedock-karma* is licensed under the [MIT License](http://opensource.org/licenses/MIT).
