@@ -2,6 +2,10 @@
 
 > [Karma](http://karma-runner.github.io/) reporter to publish test results to [Probe Dock](https://github.com/probedock/probedock).
 
+[![NPM version](https://badge.fury.io/js/probedock-karma.svg)](http://badge.fury.io/js/probedock-karma)
+[![Dependency Status](https://gemnasium.com/probedock/probedock-karma.svg)](https://gemnasium.com/probedock/probedock-karma)
+[![License](https://img.shields.io/github/license/probedock/probedock-karma.svg)](LICENSE.txt)
+
 
 
 ## Usage
