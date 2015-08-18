@@ -19,8 +19,9 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
+    "probedock-node": "^0.2.0",
     "q": "^1.0.1",
-    "probedock-node": "^0.2.0"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
