@@ -42,11 +42,7 @@ _.extend(ProbeDockKarmaReporter.prototype, {
 
     var numberOfResults = this.testRun.results.length;
     if (numberOfResults) {
-      var numberOfResultsWithKey = _.reduce(this.testRun.results, function(memo, result) {
-        return memo + (result.key ? 1 : 0);
-      }, 0);
-
-      log.info('Found ' + (numberOfResultsWithKey ? numberOfResultsWithKey : 'no') + ' results to send to Probe Dock (' + numberOfResults + ' results in total)');
+      log.info('Found ' + numberOfResults + ' results to send to Probe Dock');
     }
 
     var startTime = new Date().getTime();
