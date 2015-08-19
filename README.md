@@ -110,4 +110,4 @@ Please add a changelog entry with your name for new features and bug fixes.
 
 ## License
 
-*probedock-karma* is licensed under the [MIT License](http://opensource.org/licenses/MIT).
+**probedock-karma** is licensed under the [MIT License](http://opensource.org/licenses/MIT).
