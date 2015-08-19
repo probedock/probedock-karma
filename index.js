@@ -47,7 +47,7 @@ _.extend(ProbeDockKarmaReporter.prototype, {
 
     var startTime = new Date().getTime();
 
-    var promise = probedock.client.process(this.testRun, this.config).then(_.partial(logInfo, startTime, log)).fail(logError);
+    var promise = probedock.client.process(this.testRun, this.config).then(_.partial(logInfo, startTime, log)).fail(_.partial(logError, log));
 
     this.uploads.push(promise);
 
@@ -78,6 +78,6 @@ function logInfo(startTime, log, info) {
   }
 }
 
-function logError(err) {
-  log.warn(err.message + "\n" + err.stack);
+function logError(log, err) {
+  log.warn(err.stack);
 }
