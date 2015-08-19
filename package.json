@@ -1,7 +1,7 @@
 {
   "name": "probedock-karma",
   "description": "Karma probe for Probe Dock.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "https://github.com/probedock/probedock-karma",
   "author": {
     "name": "Simon Oulevay (Alpha Hydrae)",
