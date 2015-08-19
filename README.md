@@ -1,6 +1,6 @@
 # Karma Probe for Probe Dock
 
-> [Karma](http://karma-runner.github.io/) reporter to publish test results to [Probe Dock](https://github.com/probedock/probedock).
+**[Karma](http://karma-runner.github.io/) reporter to publish test results to [Probe Dock](https://github.com/probedock/probedock).**
 
 [![NPM version](https://badge.fury.io/js/probedock-karma.svg)](http://badge.fury.io/js/probedock-karma)
 [![Dependency Status](https://gemnasium.com/probedock/probedock-karma.svg)](https://gemnasium.com/probedock/probedock-karma)
@@ -53,7 +53,7 @@ module.exports = function(config){
     probedock: {
       config: {
         project: {
-          category: 'Karma (Jasmine)'
+          category: 'Karma'
         }
       }
     },
