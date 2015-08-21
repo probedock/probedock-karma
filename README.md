@@ -91,7 +91,7 @@ You may also define a category, tags and tickets for a test like this:
 
 ```js
 describe("something", function() {
-  it("should work @probedock(key=bcde category=Integration tag=user-registration tag=validation ticket=JIRA-1000 ticket=JIRA-1012)", function() {
+  it("should work @probedock(key=bcde category=Unit tag=user-registration tag=validation ticket=JIRA-1000 ticket=JIRA-1012)", function() {
     expect(true).not.toBe(false);
   });
 });
