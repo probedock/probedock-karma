@@ -68,6 +68,8 @@ module.exports = function(config){
 };
 ```
 
+**Remark:** You must place all the plugins you use. By default, Karma is looking automatically for the plugins started by `karma-`. As the probedock-karma plugin is not starting by `karma-`, you need to define the plugins array. Once this array is defined, Karma stop to automatically load the plugins.
+
 The next time you run your test suite, the Karma probe will send the results to your Probe Dock server.
 
 
